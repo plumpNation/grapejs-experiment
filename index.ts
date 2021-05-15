@@ -47,6 +47,11 @@ const editor = grapesjs.init({
         content: '<div data-gjs-type="text">Insert your text here</div>',
       },
       {
+        id: 'input',
+        label: 'Input',
+        content: '<input data-gjs-type="my-input-type" />',
+      },
+      {
         id: 'image',
         label: 'Image',
         // Select the component once it's dropped
@@ -60,6 +65,7 @@ const editor = grapesjs.init({
       }
     ]
   },
+
   layerManager: {
     appendTo: '.layers-container'
   },
@@ -128,6 +134,7 @@ const editor = grapesjs.init({
       }
     ],
   },
+
   // The Selector Manager allows to assign classes and
   // different states (eg. :hover) on components.
   // Generally, it's used in conjunction with Style Manager
@@ -135,6 +142,7 @@ const editor = grapesjs.init({
   selectorManager: {
     appendTo: '.styles-container'
   },
+
   styleManager: {
     appendTo: '.styles-container',
     sectors: [{
@@ -270,4 +278,30 @@ editor.Panels.addPanel({
       },
     }
   ],
+});
+
+editor.DomComponents.addType('my-input-type', {
+  // Make the editor understand when to bind `my-input-type`
+  isComponent: el => el.tagName === 'INPUT',
+
+  // Model definition
+  model: {
+    // Default properties
+    defaults: {
+      tagName: 'input',
+      // draggable: 'form, form *', // Can be dropped only inside `form` elements
+      droppable: false, // Can't drop other elements inside
+      attributes: { // Default attributes
+        type: 'text',
+        name: 'default-name',
+        placeholder: 'Insert text here',
+        'data-test': 'gavin'
+      },
+      traits: [
+        'name',
+        'placeholder',
+        { type: 'checkbox', name: 'required' },
+      ],
+    }
+  }
 });
